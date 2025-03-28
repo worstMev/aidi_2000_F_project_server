@@ -1,5 +1,6 @@
 from fastapi import FastAPI,File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+import keras 
 
 
 origins_all = '*';
@@ -24,5 +25,11 @@ async def upload_image (image : UploadFile):
     blob = await image.read()
     with open(name_pic,'wb') as file:
         file.write(blob)
+
+    #preprocess the image (size)
+
+
+    #load model : everything is on the level of run
+    model = keras.model.load_model('./model/mood_model_i_600.keras')
     #get the prediction
     return "image uploaded"
