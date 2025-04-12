@@ -1,5 +1,7 @@
 from fastapi import FastAPI,File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from PIL import Image
+import numpy as np
 import keras 
 import cv2
 
@@ -28,14 +30,29 @@ async def upload_image (image : UploadFile):
         file.write(blob)
 
     #preprocess the image (size)
-    image_resize(image,size)
-
+    data_input = image_resize(img_name=name_pic)
 
     #load model : everything is on the level of run
-    model = keras.model.load_model('./model/mood_model_i_600.keras')
+    model = keras.saving.load_model('./model/mood_model_i_600.keras')
     #get the prediction
-    return "image uploaded"
 
-def image_resize(image,size):
-        res = cv2.resize(image, dsize = (size), interpolation=cv2.INTER_CUBIC)
-        return res
+    res = np.round( model.predict(data_input));
+    res = str(int(res[0][0]))
+
+    classes = {
+            '0' : 'positive vibration',
+            '1' : 'negative vibration'
+            }
+    return f"There's {classes.get(res)} in that picture."
+
+
+
+def image_resize(img_name,dimension=(600,600)):
+     #load
+    image = Image.open(img_name)
+    image = np.asarray(image)
+    #resize
+    resized_img = cv2.resize(image, dimension, interpolation=cv2.INTER_AREA)
+    data_input = np.asarray([resized_img])
+    return data_input
+
