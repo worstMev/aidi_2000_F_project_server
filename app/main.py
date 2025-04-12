@@ -34,6 +34,8 @@ async def upload_image (image : UploadFile):
 
     #load model : everything is on the level of run
     model = keras.saving.load_model('./model/mood_model_i_600.keras')
+    #model = keras.saving.load_model('./model/mood_model_i_600_tf_400.keras')
+    #model = keras.saving.load_model('./model/mood_model_i_600_no_tl_10e_08.keras')
     #get the prediction
 
     res = np.round( model.predict(data_input));
