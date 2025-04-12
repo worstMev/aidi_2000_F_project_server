@@ -30,12 +30,12 @@ async def upload_image (image : UploadFile):
         file.write(blob)
 
     #preprocess the image (size)
-    data_input = process_image(img_name=name_pic)
-
+    data_input = image_resize(img_name=name_pic)
 
     #load model : everything is on the level of run
     model = keras.saving.load_model('./model/mood_model_i_600.keras')
     #get the prediction
+
     res = np.round( model.predict(data_input));
     res = str(int(res[0][0]))
 
@@ -46,11 +46,13 @@ async def upload_image (image : UploadFile):
     return f"There's {classes.get(res)} in that picture."
 
 
-def process_image(img_name,dimension=(600,600) ) :
-    #load
+
+def image_resize(img_name,dimension=(600,600)):
+     #load
     image = Image.open(img_name)
     image = np.asarray(image)
     #resize
     resized_img = cv2.resize(image, dimension, interpolation=cv2.INTER_AREA)
     data_input = np.asarray([resized_img])
-    return data_input 
+    return data_input
+
