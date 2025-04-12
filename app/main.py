@@ -1,6 +1,7 @@
 from fastapi import FastAPI,File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import keras 
+import cv2
 
 
 origins_all = '*';
@@ -27,9 +28,14 @@ async def upload_image (image : UploadFile):
         file.write(blob)
 
     #preprocess the image (size)
+    image_resize(image,size)
 
 
     #load model : everything is on the level of run
     model = keras.model.load_model('./model/mood_model_i_600.keras')
     #get the prediction
     return "image uploaded"
+
+def image_resize(image,size):
+        res = cv2.resize(image, dsize = (size), interpolation=cv2.INTER_CUBIC)
+        return res
