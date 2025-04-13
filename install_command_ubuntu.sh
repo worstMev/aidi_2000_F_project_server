@@ -14,6 +14,9 @@ sudo apt install python3.12-venv &&
 python3 -m venv myvenv &&
 echo "INFO : pip install fastapi and  uvicorn" &&
 ./myvenv/bin/pip install "fastapi[standard]" uvicorn &&
-./myvenv/bin/pip install tensorflow &&
-./myvenv/bin/pip install tf-keras &&
-./myvenv/bin/pip install keras 
+./myvenv/bin/pip install tensorflow &&                                                                                                                                                        
+./myvenv/bin/pip install tf-keras &&                                                                                                                                                          
+./myvenv/bin/pip install Pillow &&                                                                                                                                                            
+./myvenv/bin/pip install opencv-python &&                                                                                                                                                     
+./myvenv/bin/pip install keras
+
