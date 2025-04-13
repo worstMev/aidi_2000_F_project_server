@@ -42,8 +42,8 @@ async def upload_image (image : UploadFile):
     res = str(int(res[0][0]))
 
     classes = {
-            '0' : 'positive vibration',
-            '1' : 'negative vibration'
+            '0' : 'positive vibe',
+            '1' : 'negative vibe'
             }
     return f"There's {classes.get(res)} in that picture."
 
@@ -55,6 +55,10 @@ def image_resize(img_name,dimension=(600,600)):
     image = np.asarray(image)
     #resize
     resized_img = cv2.resize(image, dimension, interpolation=cv2.INTER_AREA)
+    dim_3d = list(dimension)
+    dim_3d.append(3)
+    dim_3d = tuple(dim_3d)
+    resized_img = np.resize(resized_img, dim_3d)
     data_input = np.asarray([resized_img])
     return data_input
 
